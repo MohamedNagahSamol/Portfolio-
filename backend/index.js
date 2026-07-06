@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: process.env.CORS_ORIGIN || 'https://portfolio-w1c5.vercel.app',
   credentials: true
 }));
 
