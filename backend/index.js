@@ -17,11 +17,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'https://portfolio-w1c5.vercel.app',
-  credentials: true
-}));
-
+app.use(cors("*")); // Allow all origins for development; adjust in production
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/portfolio';
 mongoose.connect(mongoURI)
   .then(() => console.log('✅ Connected to MongoDB'))
