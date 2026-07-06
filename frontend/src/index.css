@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens: "Emerald + Slate" ───
+ *  Inspired by a developer's world: warm stone backgrounds,
+ *  emerald accent (growth / learning), indigo as secondary
+ *  (technical precision). Warm undertones avoid the sterile
+ *  feel of pure gray scales.
+ */
+
+@theme {
+  --color-brand-primary: var(--primary);
+  --color-brand-primary-hover: var(--primary-hover);
+  --color-brand-secondary: var(--secondary);
+  --color-brand-secondary-hover: var(--secondary-hover);
+  --color-brand-bg: var(--bg-base);
+  --color-brand-surface: var(--bg-surface);
+  --color-brand-surface-muted: var(--bg-surface-muted);
+  --color-brand-text: var(--text-main);
+  --color-brand-text-muted: var(--text-muted);
+  --color-brand-border: var(--border-main);
+  /* Typography */
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-arabic: "Cairo", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* ─── Light Mode ─── */
+:root {
+  --primary: #059669;
+  --primary-hover: #047857;
+  --secondary: #6366f1;
+  --secondary-hover: #4f46e5;
+  --bg-base: #fafaf9;
+  --bg-surface: #ffffff;
+  --bg-surface-muted: #f5f5f4;
+  --text-main: #1c1917;
+  --text-muted: #78716c;
+  --border-main: #e7e5e4;
+}
+
+/* ─── Dark Mode ─── */
+.dark {
+  --primary: #34d399;
+  --primary-hover: #6ee7b7;
+  --secondary: #818cf8;
+  --secondary-hover: #a5b4fc;
+  --bg-base: #0c0a09;
+  --bg-surface: #1c1917;
+  --bg-surface-muted: #292524;
+  --text-main: #fafaf9;
+  --text-muted: #a8a29e;
+  --border-main: #44403c;
+}
+
+/* ─── Base Typography ─── */
+html {
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+html[lang="ar"] {
+  font-family: var(--font-arabic);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6 {
+  font-family: var(--font-arabic);
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
