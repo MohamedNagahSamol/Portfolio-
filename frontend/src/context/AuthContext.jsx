@@ -3,7 +3,7 @@ import api, { setTokenGetter, setRefreshTokenFn } from '../api';
 
 const AuthContext = createContext(null);
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
