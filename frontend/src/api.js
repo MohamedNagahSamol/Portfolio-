@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://portfolio-backend-production-1c79.up.railway.app',
+  baseURL: baseURL || (typeof baseURL === 'undefined' ? 'http://localhost:5000' : ''),
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
