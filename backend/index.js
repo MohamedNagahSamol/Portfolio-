@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
+import corsOption from './src/Config/corsoption.js';  
 import cookieParser from 'cookie-parser';
 import errorHandler from './src/middleware/errorHandler.js';
 import contentRoutes from './src/routes/content.js';
@@ -13,14 +14,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-
+app.use(cors(corsOption));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'https://portfolio-w1c5.vercel.app',
-  credentials: true
-}));
 
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/portfolio';
 mongoose.connect(mongoURI)

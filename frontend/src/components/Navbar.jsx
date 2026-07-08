@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, X } from 'lucide-react';
 import LangSwitch from './LangSwitch';
@@ -27,15 +27,14 @@ export default function Navbar() {
   }, []);
 
   // Close mobile menu when language changes
-  useEffect(() => {
-    // Avoid synchronous setState in effect — schedule closing to prevent cascading renders
-    let timeoutId;
-    if (mobileOpen) {
-      timeoutId = setTimeout(() => setMobileOpen(false), 0);
-    }
-    // run when language or mobileOpen changes
-    return () => clearTimeout(timeoutId);
-  }, [i18n.language, mobileOpen]);
+const prevLang = useRef(i18n.language);
+
+useEffect(() => {
+  if (prevLang.current !== i18n.language) {
+    setMobileOpen(false);
+    prevLang.current = i18n.language;
+  }
+}, [i18n.language]);
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
