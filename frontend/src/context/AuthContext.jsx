@@ -9,13 +9,14 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [initializing, setInitializing] = useState(true);
+  const [initializing, setInitializing] = useState(() => Boolean(localStorage.getItem('portfolio_auth_hint')));
 
   const login = useCallback(async (email, password) => {
     setLoading(true);
     try {
       const { data } = await api.post('/api/auth/login', { email, password });
       if (data.success) {
+        localStorage.setItem('portfolio_auth_hint', 'true');
         setAccessToken(data.data.accessToken);
         setUser({ email });
         return { success: true };
@@ -36,23 +37,33 @@ export function AuthProvider({ children }) {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
       });
-      if (!response.ok) throw new Error('Refresh failed');
+      if (!response.ok) {
+        localStorage.removeItem('portfolio_auth_hint');
+        setAccessToken(null);
+        setUser(null);
+        return null;
+      }
       const data = await response.json();
-      if (data.success) {
+      if (data.success && data.data?.accessToken) {
         setAccessToken(data.data.accessToken);
         return data.data.accessToken;
       }
-    } catch (err) {
-      console.error('Refresh token error:', err);
+    } catch {
+      // Quietly ignore network or parsing failure
     }
+    localStorage.removeItem('portfolio_auth_hint');
     setAccessToken(null);
     setUser(null);
     return null;
   }, []);
 
-  // Try silent refresh on mount
+  // Try silent refresh on mount only if auth hint exists
   useEffect(() => {
     let isMounted = true;
+
+    if (!localStorage.getItem('portfolio_auth_hint')) {
+      return;
+    }
 
     const initialize = async () => {
       try {
@@ -79,6 +90,7 @@ export function AuthProvider({ children }) {
     try {
       await api.post('/api/auth/logout');
     } catch { /* ignore */ }
+    localStorage.removeItem('portfolio_auth_hint');
     setAccessToken(null);
     setUser(null);
   }, []);

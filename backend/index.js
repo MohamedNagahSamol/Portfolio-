@@ -7,7 +7,7 @@ import corsOption from './src/Config/corsoption.js';
 import cookieParser from 'cookie-parser';
 import errorHandler from './src/middleware/errorHandler.js';
 import contentRoutes from './src/routes/content.js';
-import contactRoutes from './src/routes/contact.js';
+import contactRoutes, { adminMessagesRouter } from './src/routes/contact.js';
 import uploadRoutes from './src/routes/upload.js';
 import authRoutes from './src/routes/auth.js';
 const app = express();
@@ -34,6 +34,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api', contentRoutes);
+app.use('/api/admin/messages', adminMessagesRouter);
 app.use('/api/contact', contactRoutes);
 app.use('/api', uploadRoutes);
 

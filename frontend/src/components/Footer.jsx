@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { Globe, ExternalLink, Mail } from 'lucide-react';
 
 const SOCIAL_LINKS = [
-  { icon: Globe, href: 'https://github.com/MohamedNagahSamol', label: 'GitHub' },
-  { icon: ExternalLink, href: 'https://linkedin.com/in/mohamednagahsamol', label: 'LinkedIn' },
-  { icon: Mail, href: 'mailto:mohamednagahsamol1@gmail.com', label: 'Email' },
+  { icon: Globe, href: 'https://github.com/MohamedNagahSamol', labelKey: 'footer_social_github' },
+  { icon: ExternalLink, href: 'https://linkedin.com/in/mohamednagahsamol', labelKey: 'footer_social_linkedin' },
+  { icon: Mail, href: 'mailto:mohamednagahsamol1@gmail.com', labelKey: 'footer_social_email' },
 ];
 
 export default function Footer() {
@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Bio / info */}
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-start">
             <p className="text-sm text-(--text-muted) max-w-md leading-relaxed">
               {t('footer_bio')}
             </p>
@@ -24,14 +24,14 @@ export default function Footer() {
 
           {/* Social links */}
           <div className="flex items-center gap-4">
-            {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+            {SOCIAL_LINKS.map(({ icon: Icon, href, labelKey }) => (
               <a
                 key={href}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg text-(--text-muted) hover:text-(--primary) hover:bg-(--bg-surface-muted) transition-colors"
-                aria-label={label}
+                aria-label={t(labelKey)}
               >
                 <Icon size={20} />
               </a>

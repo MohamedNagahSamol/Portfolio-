@@ -12,9 +12,13 @@ async function seed() {
     await mongoose.connect(uri);
     console.log('✅ Connected to MongoDB.');
 
-    console.log('Cleaning AdminUser collection...');
-    const deleted = await AdminUser.deleteMany({});
-    console.log(`🗑️ Deleted ${deleted.deletedCount} existing admin users.`);
+    const existingAdmin = await AdminUser.findOne({ email: ADMIN_EMAIL.toLowerCase() });
+    if (existingAdmin) {
+      console.log(`ℹ️ Admin user already exists (${ADMIN_EMAIL.toLowerCase()}). Skipping creation.`);
+      await mongoose.disconnect();
+      console.log('🔌 Disconnected from MongoDB.');
+      process.exit(0);
+    }
 
     console.log(`Creating admin user: ${ADMIN_EMAIL}...`);
     const user = await AdminUser.create({

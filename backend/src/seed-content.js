@@ -94,8 +94,32 @@ async function seedContent() {
     await Project.insertMany(projects);
     console.log('✅ Projects seeded');
 
-    await Experience.insertMany([]);
-    console.log('✅ Experience seeded (empty — add via admin panel)');
+    const experiences = [
+      {
+        title: { en: 'Full-Stack Software Engineer', ar: 'مهندس برمجيات ويب متكامل' },
+        organization: { en: 'Independent / Freelance', ar: 'مستقل / عمل حر' },
+        startDate: new Date('2023-06-01'),
+        endDate: null,
+        description: {
+          en: 'Architected and deployed high-performance full-stack web applications using React 19, Node.js, Express, MongoDB, and Prisma ORM. Implemented bi-directional real-time event systems with Socket.io and secure Stripe payment processing.',
+          ar: 'تطوير وتدشين تطبيقات ويب متكاملة عالية الأداء باستخدام React 19 و Node.js و Express و MongoDB و Prisma ORM مع تكامل أحداث فورية ثنائية الاتجاه عبر Socket.io وبوابات دفع Stripe.'
+        },
+        order: 1
+      },
+      {
+        title: { en: 'Frontend Software Engineer', ar: 'مهندس واجهات أمامية' },
+        organization: { en: 'Web Solutions Lab', ar: 'مختبر حلول الويب' },
+        startDate: new Date('2022-09-01'),
+        endDate: new Date('2023-05-31'),
+        description: {
+          en: 'Engineered responsive, accessible user interfaces with React, Tailwind CSS, and TypeScript. Optimized client bundle performance, designed modular UI components, and implemented complete bilingual RTL internationalization.',
+          ar: 'بناء واجهات مستخدم متجاوبة وسهلة الوصول باستخدام React و Tailwind CSS و TypeScript مع تحسين حزم العميل وبناء مكونات معيارية ودعم كامل لتخطيط RTL.'
+        },
+        order: 2
+      }
+    ];
+    await Experience.insertMany(experiences);
+    console.log('✅ Experience seeded');
 
     await Certificate.insertMany([]);
     console.log('✅ Certificates seeded (empty — add via admin panel)');

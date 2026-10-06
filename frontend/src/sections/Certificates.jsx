@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ExternalLink, GraduationCap } from 'lucide-react';
 import api from '../api';
-import { Spinner } from '../components';
+import Spinner from '../components/Spinner';
+import { formatMonthYear } from '../utils/date';
 
 export default function Certificates() {
   const { t, i18n } = useTranslation();
@@ -15,9 +16,9 @@ export default function Certificates() {
   useEffect(() => {
     api.get('/api/certificates')
       .then(({ data }) => data.success ? setCertificates(data.data) : setError(data.message))
-      .catch(() => setError('Network error'))
+      .catch(() => setError(t('common_network_error')))
       .finally(() => setLoading(false));
-  }, []);
+  }, [t]);
 
   if (loading) return <section id="certificates" className="py-24 sm:py-32 flex justify-center"><Spinner size="lg" /></section>;
   if (error) return <section id="certificates" className="py-24 sm:py-32 text-center text-red-500">{error}</section>;
@@ -58,7 +59,7 @@ export default function Certificates() {
               <p className="mt-2 text-sm text-(--text-muted)">{t('certificates_issuer')}: {cert.issuer}</p>
               {cert.date && (
                 <p className="mt-1 text-xs font-mono text-(--text-muted)">
-                  {new Date(cert.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                  {formatMonthYear(cert.date, i18n.language)}
                 </p>
               )}
               {cert.credentialUrl && (
@@ -72,7 +73,7 @@ export default function Certificates() {
         </div>
         {certificates.length === 0 && (
           <div className="mt-12 text-center py-12 border-2 border-dashed border-(--border-main) rounded-2xl">
-            <p className="text-(--text-muted)">No certificates yet.</p>
+            <p className="text-(--text-muted)">{t('certificates_empty')}</p>
           </div>
         )}
       </div>

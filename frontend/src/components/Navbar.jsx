@@ -59,7 +59,7 @@ useEffect(() => {
             onClick={(e) => handleNavClick(e, '#home')}
             className="text-xl font-heading font-bold tracking-tight text-(--text-main) hover:text-(--primary) transition-colors"
           >
-            Portfolio
+            {t('nav_brand')}
           </a>
 
           {/* Desktop links */}

@@ -9,6 +9,8 @@ const variantClasses = {
     'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
   danger:
     'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+  outline:
+    'border border-(--border-main) text-(--text-muted) bg-transparent',
 };
 
 export default function Badge({ variant = 'primary', children }) {

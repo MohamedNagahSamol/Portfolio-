@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Spinner } from '../components';
+import Spinner from '../components/Spinner';
 import ProjectCard from '../components/ProjectCard';
 import api from '../api';
 
@@ -27,17 +27,17 @@ export default function Projects() {
         if (data.success) {
           setProjects(data.data);
         } else {
-          setError(data.message || 'Failed to fetch projects');
+          setError(data.message || t('error_fetch_projects'));
         }
       } catch (err) {
         console.error('Error fetching projects:', err);
-        setError('Network error while fetching projects');
+        setError(t('common_network_error'));
       } finally {
         setLoading(false);
       }
     }
     fetchProjects();
-  }, []);
+  }, [t]);
 
   const filteredProjects = activeFilter === 'all' 
     ? projects 
@@ -60,7 +60,7 @@ export default function Projects() {
             onClick={() => window.location.reload()} 
             className="mt-4 text-sm text-red-500 underline hover:text-red-600"
           >
-            Try again
+            {t('common_try_again')}
           </button>
         </div>
       </section>
@@ -80,7 +80,7 @@ export default function Projects() {
           <span className="font-mono text-sm text-(--primary)">
             {'// '}{t('section_projects')}
           </span>
-          <h2 className="text-3xl sm:text-4xl font-heading font-bold tracking-tight mt-2">
+          <h2 className="text-3xl sm:text-4xl font-heading font-bold tracking-tight mt-2 text-(--text-main)">
             {t('section_projects')}
           </h2>
           <p className="mt-4 text-(--text-muted) max-w-2xl leading-relaxed">
@@ -88,21 +88,38 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Filter Bar */}
-        <div className="mt-12 flex flex-wrap gap-2 p-1 bg-(--bg-surface-muted) w-fit rounded-xl border border-(--border-main)">
-          {FILTERS.map((filter) => (
-            <button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                activeFilter === filter.id 
-                  ? 'bg-(--bg-surface) text-(--primary) shadow-sm' 
-                  : 'text-(--text-muted) hover:text-(--text-main)'
-              }`}
-            >
-              {t(filter.label)}
-            </button>
-          ))}
+        {/* Filter Tabs with Sliding Pill */}
+        <div className="mt-10 flex flex-wrap gap-2 p-1.5 bg-(--bg-surface-muted) w-fit rounded-2xl border border-(--border-main)">
+          {FILTERS.map((filter) => {
+            const isActive = activeFilter === filter.id;
+            const count = filter.id === 'all' 
+              ? projects.length 
+              : projects.filter((p) => p.category === filter.id).length;
+
+            return (
+              <button
+                key={filter.id}
+                onClick={() => setActiveFilter(filter.id)}
+                className={`relative px-4 py-2 text-sm font-medium rounded-xl transition-colors duration-200 z-10 flex items-center gap-2 ${
+                  isActive 
+                    ? 'text-(--primary) font-semibold' 
+                    : 'text-(--text-muted) hover:text-(--text-main)'
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="projectFilterPill"
+                    className="absolute inset-0 bg-(--bg-surface) rounded-xl shadow-xs border border-emerald-500/30 -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                  />
+                )}
+                <span>{t(filter.label)}</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-(--primary)/10 text-(--primary) font-mono">
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Projects Grid */}
@@ -111,15 +128,15 @@ export default function Projects() {
           layout
         >
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project._id} project={project} />
+            {filteredProjects.map((project, idx) => (
+              <ProjectCard key={project._id || `proj-${idx}`} project={project} />
             ))}
           </AnimatePresence>
         </motion.div>
 
         {filteredProjects.length === 0 && (
           <div className="mt-20 text-center py-20 border-2 border-dashed border-(--border-main) rounded-3xl">
-            <p className="text-(--text-muted)">No projects found in this category.</p>
+            <p className="text-(--text-muted)">{t('projects_empty')}</p>
           </div>
         )}
       </div>

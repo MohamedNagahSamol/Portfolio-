@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { body } from 'express-validator';
 import authMiddleware from '../middleware/auth.js';
+import validate from '../middleware/validate.js';
+import { contactValidator, idParamValidator } from '../validators/index.js';
 import {
   submitContact,
   listMessages,
@@ -9,19 +10,17 @@ import {
 } from '../controllers/contactController.js';
 
 const router = Router();
+export const adminMessagesRouter = Router();
 
-router.post(
-  '/',
-  [
-    body('name').trim().notEmpty().withMessage('Name is required.'),
-    body('email').isEmail().withMessage('Valid email is required.'),
-    body('message').trim().notEmpty().withMessage('Message is required.')
-  ],
-  submitContact
-);
+// Admin messages routes (mounted at /api/admin/messages)
+adminMessagesRouter.get('/', authMiddleware, listMessages);
+adminMessagesRouter.patch('/:id/read', authMiddleware, idParamValidator, validate, markAsRead);
+adminMessagesRouter.delete('/:id', authMiddleware, idParamValidator, validate, deleteMessage);
 
-router.get('/admin/messages', authMiddleware, listMessages);
-router.patch('/admin/messages/:id/read', authMiddleware, markAsRead);
-router.delete('/admin/messages/:id', authMiddleware, deleteMessage);
+// Public contact route
+router.post('/', contactValidator, validate, submitContact);
+
+// Backward compatibility alias: /api/contact/admin/messages
+router.use('/admin/messages', adminMessagesRouter);
 
 export default router;

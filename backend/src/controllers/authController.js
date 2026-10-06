@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import AdminUser from '../models/AdminUser.js';
 
@@ -5,7 +6,11 @@ function generateAccessToken(id) {
   return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' });
 }
 function generateRefreshToken(id) {
-  return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+  return jwt.sign(
+    { id, jti: crypto.randomUUID() },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: '7d' }
+  );
 }
 
 export const login = async (req, res) => {
