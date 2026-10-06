@@ -126,17 +126,44 @@ async function seedContent() {
 
     const blogPosts = [
       {
-        title: { en: 'Building a Real-time Chat App with MERN and Socket.io', ar: 'بناء تطبيق محادثة فوري باستخدام MERN و Socket.io' },
-        excerpt: { en: 'A step-by-step guide to building a real-time messaging application using React, Node.js, Express, MongoDB, and Socket.io with Cloudinary media support.', ar: 'دليل خطوة بخطوة لبناء تطبيق مراسلة فوري باستخدام React و Node.js و Express و MongoDB و Socket.io مع دعم وسائط Cloudinary.' },
-        content: { en: 'In this article, I walk through the architecture and implementation of OBJ Chat, a real-time messaging app built with the MERN stack. Key features include instant messaging via Socket.io, image sharing through Cloudinary, JWT authentication, and a responsive React frontend with Chakra UI.', ar: 'في هذه المقالة، أشرح بنية وتنفيذ OBJ شات، تطبيق مراسلة فوري مبني باستخدام MERN. تشمل الميزات الرئيسية المراسلة الفورية عبر Socket.io ومشاركة الصور عبر Cloudinary والمصادقة باستخدام JWT.' },
-        tags: ['MERN', 'Socket.io', 'React', 'Real-time'],
-        coverImage: '',
-        externalUrl: '',
-        publishedAt: new Date('2026-07-01'),
+        title: {
+          en: 'Architecting High-Performance Real-Time Systems with MERN & WebSockets',
+          ar: 'هندسة أنظمة الويب اللحظية عالية الأداء باستخدام MERN و WebSockets'
+        },
+        excerpt: {
+          en: 'A practical guide to scaling bidirectional event architectures, optimizing MongoDB change streams, and handling WebSocket reconnection states in production.',
+          ar: 'دليل عملي لهندسة وتوسيع المعماريات اللحظية ثنائية الاتجاه، وتحسين تدفقات بيانات MongoDB ومعالجة حالات إعادة الاتصال في بيئات الإنتاج.'
+        },
+        content: {
+          en: 'Building scalable real-time systems requires careful consideration of state synchronization, connection persistence, and resource allocation. In modern MERN applications, combining Socket.io with Express and MongoDB enables seamless bidirectional data flow. Key production considerations include clustering with a Redis adapter, implementing heartbeat pings to detect stale connections, and utilizing MongoDB change streams for reactive updates. By maintaining decoupled event handlers and optimizing payload serialization, web applications can comfortably handle thousands of concurrent WebSocket connections with sub-50ms latency.',
+          ar: 'يتطلب بناء الأنظمة اللحظية القابلة للتوسع دراسة دقيقة لتزامن الحالات واستقرار الاتصال وإدارة الموارد. في تطبيقات MERN الحديثة، يتيح دمج Socket.io مع Express و MongoDB تدفقاً سلساً وفورياً للبيانات ثنائية الاتجاه. تشمل أهم معايير بيئة الإنتاج: توزيع الأحمال عبر Redis Adapter، وتطبيق نبضات التحقق (Heartbeat Pings) لاكتشاف الاتصالات المنقطعة، واستخدام MongoDB Change Streams للتحديثات التفاعلية الفورية. ومن خلال فصل معالجات الأحداث وتصغير حجم الحزم المرسلة، يمكن للتطبيق استيعاب آلاف الاتصالات المتزامنة بزمن استجابة أقل من 50 مللي ثانية.'
+        },
+        tags: ['MERN', 'WebSockets', 'Node.js', 'System Design', 'Real-Time'],
+        coverImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+        externalUrl: 'https://github.com/MohamedNagahSamol/Chat-App',
+        publishedAt: new Date('2026-03-10'),
       },
+      {
+        title: {
+          en: 'Clean Architecture & Scalable API Design in Node.js & MongoDB',
+          ar: 'المعمارية النظيفة وتصميم واجهات البرمجة القابلة للتوسع في Node.js و MongoDB'
+        },
+        excerpt: {
+          en: 'How to decouple business logic from framework dependencies using layered patterns, robust schema validation, and secure JWT token rotation.',
+          ar: 'كيفية فصل منطق الأعمال عن إطار العمل باستخدام الأنماط الطبقية، والتحقق الصارم من صحة البيانات، وتأمين تدوير رموز JWT.'
+        },
+        content: {
+          en: 'Maintainable backend engineering depends on strict separation of concerns. Adopting the Controller-Service-Repository pattern in Express decouples HTTP routing from core business rules and database queries. Combining Mongoose schemas with express-validator guarantees runtime input sanitization before touching database layers. Furthermore, pairing short-lived access tokens with rotating httpOnly refresh cookies eliminates common XSS and CSRF attack vectors while providing a seamless user authentication experience. Indexing critical MongoDB fields ensures queries remain performant as dataset sizes scale exponentially.',
+          ar: 'تعتمد هندسة الباك إند القابلة للصيانة على الفصل الصارم للمسؤوليات (Separation of Concerns). إن تبني نمط Controller-Service-Repository في Express يفصل طبقة التوجيه HTTP عن منطق الأعمال واستعلامات قاعدة البيانات. كما يضمن دمج مخططات Mongoose مع express-validator تنقية المدخلات وفحصها قبل وصولها لقاعدة البيانات. بالإضافة إلى ذلك، فإن اقتران رموز الوصول قصيرة المدى (Access Tokens) مع تدوير رموز التحديث الآمنة (httpOnly Refresh Cookies) يحمي التطبيق من هجمات XSS و CSRF، بينما تضمن الفهرسة الذكية لحقول MongoDB بقاء الاستعلامات فائقة السرعة مع نمو حجم البيانات.'
+        },
+        tags: ['Node.js', 'MongoDB', 'Clean Architecture', 'API Design', 'Security'],
+        coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+        externalUrl: 'https://github.com/MohamedNagahSamol/authorization',
+        publishedAt: new Date('2026-03-25'),
+      }
     ];
     await BlogPost.insertMany(blogPosts);
-    console.log('✅ Blog post seeded');
+    console.log('✅ Blog posts seeded');
 
     await mongoose.disconnect();
     console.log('🎉 Content seed complete.');
